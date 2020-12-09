@@ -5,8 +5,6 @@ if(-not (Get-ChildItem $transactionFile))
     echo "Provide a transaction file you mug"
 }
 
-$transactionFile = "midata0086.csv"
-
 $transactionData = Import-Csv $transactionFile
 
 $transactionTypes = @{
