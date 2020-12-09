@@ -1,0 +1,43 @@
+aws eks --region eu-west-1 update-kubeconfig --name transient //using aws cli to add the new aws context to your kubeconfig. 
+
+>> KUBECTL
+
+kubectl config current-context
+kubectl config get-contexts
+kubectl config use-context [cluster name]
+
+kubectl get events -n [namespace name]
+kubectl describe pods <podname> -n <namespace>
+
+// Shell into a running container...
+kubectl exec --stdin --tty shell-demo -- /bin/bash 
+
+//alpine based linux has ash not bash
+kubectl exec --stdin --tty nginxtest -- /bin/ash 
+
+//Run this to get a super small alpine nginx image running so you can debug connections in a cluseter. (I'm using nginx just because nginx gets up and running so the container keeps running. There's plenty of other ways u could do it)...
+kubectl run nginxtest --image=sdelrio/docker-minimal-nginx --command=true -- "/bin/ash" "-c" "apk add curl; nginx -g 'daemon off;'" 
+
+//Proxy localhost to a resource in the cluster (works for services and some other things i believe.)
+kubectl port-forward pods/podname 9000:9000 -n pod_name
+
+
+// get pods in a namespace
+kubectl get pods -n namespace
+
+// get all objects of a particular resource type...
+kubectl get pods 
+
+// get all resources...
+kubectl get all 
+
+// Create new objects in the cluster based on a yaml file. --save-config saves some metadata so you can apply later
+kubectl create -f filename.yaml --save-config. 
+
+// Apply the changes to an existing config only create what's needed. You can actually just apply instead of create. It's a better idea. Don't use create...
+kubectl apply -f filename.yaml 
+
+
+>>HELM
+
+helm 
