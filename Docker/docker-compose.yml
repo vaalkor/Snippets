@@ -1,0 +1,21 @@
+edmw-configloader-service:
+  image: imageName
+  hostname: testHostName
+  environment:
+    - ENV_VAR=value1
+  ports:
+    - "666:80" #Map external port to container port.
+  volumes:
+    - ${APPDATA}/whatever:/root #Get appdata path.
+    - ./ConfigLoaderService:/usr/src/appVolume #mount source code folder
+  # stdin_open: true # docker run -i #These 2 lines cause the container to be run interactively.
+  # tty: true        # docker run -t #These 2 lines cause the container to be run interactively.
+
+  #Use the following line to run more than one command.
+  command: [sh, -c, "dotnet restore \"ConfigLoaderService/ConfigLoaderService.csproj\" --configfile NuGet.config && dotnet run --project \"ConfigLoaderService/ConfigLoaderService.csproj\""]
+
+  working_dir: /usr/src/appVolume
+
+networks:
+default:
+    name: default-network-name
