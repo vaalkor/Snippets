@@ -12,22 +12,19 @@ apiVersion: v1
 kind: Config
 preferences: {}
 current-context: $KUBERNETES_CONTEXT
-
 clusters:
 - cluster:
     server: $KUBERNETES_SERVER_URL
     certificate-authority: $KUBERNETES_CLUSTER_CA_FILE
   name: inCluster
-
 users:
 - name: podServiceAccount
   user:
     token: $KUBERNETES_USER_TOKEN
-
 contexts:
 - context:
     cluster: inCluster
     user: podServiceAccount
-current-context: inCluster
-EOF
   name: $KUBERNETES_CONTEXT
+current-context: $KUBERNETES_CONTEXT
+EOF
