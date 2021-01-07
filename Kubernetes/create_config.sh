@@ -5,7 +5,6 @@ KUBERNETES_CLUSTER_CA_FILE="$SERVICE_ACCOUNT_DIR"/ca.crt
 KUBERNETES_NAMESPACE=$(cat "$SERVICE_ACCOUNT_DIR"/namespace)
 KUBERNETES_USER_TOKEN=$(cat "$SERVICE_ACCOUNT_DIR"/token)
 KUBERNETES_CONTEXT="inCluster"
-KUBERNETES_CA_FILE_DATA=$(tr -d "\n" < "$KUBERNETES_CLUSTER_CA_FILE" | sed 's/-----BEGIN CERTIFICATE-----//' | sed 's/-----END CERTIFICATE-----//')
 
 mkdir -p "$HOME"/.kube
 cat << EOF > "$HOME"/.kube/config
@@ -17,7 +16,7 @@ current-context: $KUBERNETES_CONTEXT
 clusters:
 - cluster:
     server: $KUBERNETES_SERVER_URL
-    certificate-authority-data: $KUBERNETES_CA_FILE_DATA
+    certificate-authority: $KUBERNETES_CLUSTER_CA_FILE
   name: inCluster
 
 users:
@@ -29,6 +28,6 @@ contexts:
 - context:
     cluster: inCluster
     user: podServiceAccount
-    namespace: $KUBERNETES_NAMESPACE
-  name: $KUBERNETES_CONTEXT
+current-context: inCluster
 EOF
+  name: $KUBERNETES_CONTEXT
