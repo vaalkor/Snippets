@@ -1,0 +1,1 @@
+curl https://drive.google.com/uc?export=download&id=<get_id_from_link>
