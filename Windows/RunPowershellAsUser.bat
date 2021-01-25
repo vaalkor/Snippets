@@ -1,0 +1,1 @@
+Powershell.exe -NoProfile -ExecutionPolicy Bypass -File  <INSERT_POWERSHELLSCRIPT_HERE>.ps1
