@@ -1,0 +1,3 @@
+#Put the following after a FROM.
+ARG IMAGE_SEMVER=""
+ENV IMAGE_SEMVER=$IMAGE_SEMVER
