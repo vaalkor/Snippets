@@ -2,3 +2,6 @@ docker build -f Dockerfile.debug -t tag1 -t tag2  //specify a dockerfile and som
 docker run -it --entrypoint /bin/sh imagename:tag
 
 docker-compose -f <filename> up -d (detatched)
+
+# Mount current folder to a folder called /test 
+docker run -v ${PWD}:/test -it --entrypoint sh imagename:tag
