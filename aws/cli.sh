@@ -5,3 +5,6 @@ MANIFEST=$(aws ecr batch-get-image --region $ECR_REGION --repository-name $ECR_R
 aws ecr put-image --region $ECR_REGION --repository-name $ECR_REPOSITORY_NAME --image-tag $NEW_ECR_TAG --image-manifest "$MANIFEST"
 
 aws ecr describe-images --repository-name dd-api --image-ids imageTag=latest
+
+
+aws elbv2 describe-target-groups --query "TargetGroups[?VpcId == 'vpc-018ab8d575f3fa8f9']"
