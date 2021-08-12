@@ -5,3 +5,6 @@ docker-compose -f <filename> up -d (detatched)
 
 # Mount current folder to a folder called /test 
 docker run -v ${PWD}:/test -it --entrypoint sh imagename:tag
+
+docker container ls # List containers to get a container ID
+docker cp <container id>:/filepath /hostpath
