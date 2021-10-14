@@ -8,3 +8,7 @@ aws ecr describe-images --repository-name dd-api --image-ids imageTag=latest
 
 
 aws elbv2 describe-target-groups --query "TargetGroups[?VpcId == 'vpc-018ab8d575f3fa8f9']"
+
+aws ssm describe-instance-information --output json --query "InstanceInformationList[?contains(ComputerName, 'somestuff')]"
+
+aws eks update-nodegroup-config --cluster-name clusterName --nodegroup-name nodeGroupName --scaling-config "minSize=2,maxSize=2,desiredSize=2"

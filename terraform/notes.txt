@@ -1,0 +1,102 @@
+> Terraform notes
+
+> Basic objects
+var: variable. can be defined in any tf file, in a tfvars file. Can be passed in via the command line
+local: basically for computed variables that are used at runtime
+data: a data source is a thing that will pull info from somewhere. for example get you the list of subnets in a VPC so you can use them at runtime.
+resource: a resource is exactly what it sounds like... a resource. ec2 instance, security group, and so on.
+module: terraform config can be grouped into modules. more on that later. (eg: module.aws_ec2_instance.my_instance.arn) 
+
+> CLI
+
+terraform init -backend-config=path
+terraform plan -out=path (output the plan to a file. this can then be fed into the apply at a later date)
+terraform apply planpath (planpath is option. the path of a plan file to apply)
+
+> Data types
+string "blah"
+number 5
+bool false
+list ["blah", 5]
+map {"thing" = 5, "blah" = "bollock s"}
+
+> Functions
+There are built in functions and users can also define function. Some useful ones
+merge(obj1, obj2): Merge 2 maps together.
+file(path): read a file to a string...
+toset(array) convert an array of things to a set. useful for passing into for_each resource argument.
+
+> Resource arguments
+These are additional things you can specificy when creating resources
+
++ depends_on: explicitely tell terraform what other resources this resource depends on. Might be useful if you are using provisioners.
+eg: depends_on = [aws_iam_role_policy.allow_s3]
+
++ count: make X number of the exact same resource.
+When using count, you can do count.index to get which one is being made, for unique IDs and stuff.
+
++ for_each: loop over some list and make parameterised resources
+Loop over a map or a set of strings. You can convert a list to a set using toset...
+You have access to the key and the value. each.key and each.value... cool shit mate..
+For a set of strings you would just use each.key.. Cool shit mate! Cool shit!
+
++ provider: tell terraform what provider to use, if it doesn't know already
+
+> Workspaces.
+
+Workspaces provide an easier way to manage different environments using the same terraform config.
+You could manage different environments with something like this:
+terraform plan -state=".\dev\dev.state" -var-file="common.tfvars" -var-file=".\dev\dev.tfvars"
+
+But using workspaces simplfies it a bit... 
+terraform worksace new dev
+terraform apply.
+This apply state gets stored in a separate state file now. You don't have to manually update the state path. Just switch the workspace. Cool shit mate... Cool shit...
+terraform.workspace is a special variable that tells you what workspace you are in. You could then use that to index into a particular map for example... Cool.
+
+> Terraform state commands
+terraform state list - list objects in state data
+terraform state show - show details about an objects
+terraform state mv - move an item in state. to a different state file for example
+terraform state rm - remove an item from state
+terraform state pull - output current state to stdout
+terraform state push - update remote state from local (you shouldn't normally need to do this...)
+
+> Templates
+"${var.prefix}-app"
+"%{ if var.prefix != " "}${var.prefix}-app%{ else }generic-app%{ endif}"
+
+<<EOT
+%{ for name in local.names }
+${name}-app
+%{ endif }
+EOT
+
+The filled out template can be accessed using data.template_file.example.rendered.
+
+data "template_file" "example" {
+    count = "2" (the count param works, not sure how you then refer to each one though. what's its name? not sure.)
+    template = "$${var1}-$${current_count}" (why did we not have access to count.index directly?)
+    vars = {
+        var1 = var.some_string
+        current_count = count.index
+    }
+}
+
+You could also read the template from a file: 
+
+data "template_file" "example" {
+    template = file("peer_policy.txt")
+    vars = {
+        var1 = var.some_string
+    }
+}
+
+Or just use the templatefile function to avoid the datasource altogether
+
+templatefile("peer_policy.txt", { vpc_arn = var.vpc_arn})
+
+
+>>> THings to look into
+terraform import.
+terraform push

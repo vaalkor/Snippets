@@ -8,3 +8,6 @@ docker run -v ${PWD}:/test -it --entrypoint sh imagename:tag
 
 docker container ls # List containers to get a container ID
 docker cp <container id>:/filepath /hostpath
+
+$images = docker images --filter "{{json .}}" // Get the list of images as json.
+ConvertFrom-Json ("["+[string]::Join(",", $test)+"]") // Convert that list into an actual JSON array using powershell... pretty janky..
