@@ -10,3 +10,5 @@ curl https://getmic.ro | bash && sudo mv micro /usr/bin
 micro myFile.txt
 
 ssh -i "KeyPairName.pem" username@servername.com
+
+find . -type f -exec zip my_zip {} +
