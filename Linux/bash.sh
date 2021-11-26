@@ -12,3 +12,6 @@ micro myFile.txt
 ssh -i "KeyPairName.pem" username@servername.com
 
 find . -type f -exec zip my_zip {} +
+
+#print special characters. <<< is a here-string https://tldp.org/LDP/abs/html/x17837.html
+cat -etv <<<"$IFS"
