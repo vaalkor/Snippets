@@ -1,0 +1,20 @@
+>> Essential software
+
+vscode
+diffmerge
+git
+visual studio community
+cryptomator
+windirstat
+qbittorrent
+notepad++
+touchcursor + task scheduler to start it as admin on windows start.
+google drive
+
+>> Random things
+
+diffmerge exe aliased to diffmerge
+snippets repo in user folder
+snippets repo in a start menu shortcut
+snippets scripts folder in PATH
+(for laptop) touchscreen on/off in startmenu
