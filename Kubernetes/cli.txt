@@ -37,7 +37,5 @@ kubectl create -f filename.yaml --save-config.
 // Apply the changes to an existing config only create what's needed. You can actually just apply instead of create. It's a better idea. Don't use create...
 kubectl apply -f filename.yaml 
 
-
->>HELM
-
-helm 
+// You can use this to delete evicted pods pretty quickly
+kubectl delete pods --field-selector=status.phase=Failed -n ops-system
