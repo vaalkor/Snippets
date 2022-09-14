@@ -24,3 +24,8 @@ git show -s --format=%ct HEAD
 
 # Parse a ref (tag, branch name, so on) to get the hash
 git rev-parse HEAD
+
+# Start a message but don't commit it. So you can see a nice diff.
+git merge --no-commit --no-ff feature/200968
+# Then:
+git merge --abort
