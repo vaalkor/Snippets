@@ -38,4 +38,10 @@ kubectl create -f filename.yaml --save-config.
 kubectl apply -f filename.yaml 
 
 // You can use this to delete evicted pods pretty quickly
-kubectl delete pods --field-selector=status.phase=Failed -n ops-system
+kubectl delete pods --field-selector=status.phase=Failed -n some-namespace
+
+//There does't seem to be wildcards here unfortunately. For that I guess you'd have to use jsonpath filters
+kubectl get pods -o=jsonpath='{.items[0]}'
+
+//But if you need to easily delete ALL of everything then you can just use != like so
+kubectl delete pods --field-selector=status.phase!=potatoes -n some-namespace

@@ -28,3 +28,33 @@ public sealed class RepeatAttribute : DataAttribute
         }
     }
 }
+
+(ITestOutputHelper output)
+{
+    _writer = new TestOutputWriter(output);
+    _writer.WriteLine("In PostgresEventStoreTests");
+
+    var type = output.GetType();
+    var testMember = type.GetField("test", BindingFlags.Instance | BindingFlags.NonPublic);
+    var test = (ITest)testMember.GetValue(output);
+    _writer.WriteLine($"Test name: {test}");
+
+public class TestOutputWriter
+{
+    private readonly ILogger _logger;
+
+    public TestOutputWriter(ITestOutputHelper outputHelper)
+    {
+        XUnitOutputHelper = outputHelper;
+        _logger = new LoggerConfiguration().WriteTo.File("ci.log").CreateLogger();
+    }
+
+    public ITestOutputHelper XUnitOutputHelper { get; }
+
+    public void WriteLine(string line)
+    {
+        _logger.Information(line);
+        XUnitOutputHelper.WriteLine(line); // for VS
+        Console.WriteLine(line); // for docker
+    }
+}
