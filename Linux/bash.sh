@@ -54,3 +54,6 @@ recurse()
   fi
   echo "x after: $x"
 }
+
+# Print 20 largest files
+du -a /dir/ | sort -n -r | head -n 20
