@@ -57,3 +57,6 @@ recurse()
 
 # Print 20 largest files
 du -a /dir/ | sort -n -r | head -n 20
+
+# Create a file of arbitrary size. (number is bytes)
+fallocate -l 1024 filename.txt
