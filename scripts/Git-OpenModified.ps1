@@ -1,0 +1,1 @@
+git status --porcelain | ?{$_.StartsWith(" M ")} | %{code ($_.Replace(" M ",""))}

@@ -29,3 +29,9 @@ git rev-parse HEAD
 git merge --no-commit --no-ff feature/200968
 # Then:
 git merge --abort
+
+# Cherry pick compares a commit to its parent. Merge commits have more than 1 parent so you can use -m to select which parent to compare to.
+git cherry-pick -m 1 <commit_hash>
+
+# Pretty obvious what this one does...
+git branch --sort=-committerdate
