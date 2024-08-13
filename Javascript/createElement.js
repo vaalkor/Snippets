@@ -12,27 +12,30 @@ const NodeType = {
     DOCUMENT_FRAGMENT: 11,
     NOTATION: 12 // Deprecated
   };
-  
-  
-function $e(t='div', ...args){
-    args = args.flatMap(x => x).filter(x => x);
-    let props = {};
-    let children = args;
-    if(args.length){
-      if(!args.slice(1).every(x => (typeof(x) === 'object' && x.nodeType !== undefined) || typeof(x) !== 'object'))
-        { console.error('All child objects must be DOM nodes. An optional properties object can be provided as the FIRST argument after the tag.'); return; }
-      if(typeof(args[0]) === 'object' && args[0].nodeType === undefined){
-        props = args[0];
-        children = args.slice(1);
-      }
+
+function $e(tag, ...args){
+  tag = 'div';
+  args = [{checked: true}, 'string1', 'string2', 'string3'];
+
+
+  args = args.flatMap(x => x).filter(x => x);
+  let props = {};
+  let children = args;
+  if(args.length){
+    if(!args.slice(1).every(x => (typeof(x) === 'object' && x.nodeType !== undefined) || typeof(x) !== 'object'))
+      { console.error('All child objects must be DOM nodes. An optional properties object can be provided as the FIRST argument after the tag.'); return; }
+    if(typeof(args[0]) === 'object' && args[0].nodeType === undefined){
+      props = args[0];
+      children = args.slice(1);
     }
-  
-    let newElement = document.createElement(t);
-    Object.assign(newElement, props);
-    newElement.append(...children);
-    return newElement;
+  }
+
+  let newElement = document.createElement(tag);
+  Object.assign(newElement, props);
+  newElement.append(...children);
+  return newElement;
 }
-  
+
 /// TESTS ///
 
 function testFunc(){};

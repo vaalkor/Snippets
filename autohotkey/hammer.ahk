@@ -9,3 +9,4 @@ XButton1::Enter
 $^+z::
 SetKeyDelay -1
 Send {RCtrl Down}y{RCtrl Up}
+Xbutton2::Send +s
