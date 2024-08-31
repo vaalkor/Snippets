@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=My Bash Script
+Comment=This is a custom Bash script
+Exec=/home/tordom/code/Snippets/Linux/rotate.sh
+Icon=utilities-terminal
+Terminal=true
+Categories=Utility;
+
