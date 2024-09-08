@@ -1,6 +1,8 @@
 #!/bin/bash
 #shellcheck disable=SC1091
 
+# See some recommendations here: https://google.github.io/styleguide/shellguide.html
+
 quit_with_success_code() { exit 0; }
 trap quit_with_success_code ERR # Always exit with a success status
 
