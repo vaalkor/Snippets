@@ -1,0 +1,4 @@
+map i scrollUp
+map k scrollDown
+map j scrollLeft
+map h enterInsertMode
