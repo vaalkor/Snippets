@@ -1,0 +1,1 @@
+declare const m: typeof import("mithril");

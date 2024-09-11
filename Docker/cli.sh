@@ -1,3 +1,5 @@
+#!/bin/bash
+
 docker build -f Dockerfile.debug -t tag1 -t tag2  //specify a dockerfile and some tags...
 docker run -it --entrypoint /bin/sh imagename:tag
 
