@@ -1,0 +1,16 @@
+{
+    "name": "typescript-template",
+    "version": "0.0.1",
+    "type": "module",
+    "scripts": {
+        "dev": "nodemon --ignore dist -e ts,js,json --exec \"node esbuild-dev.js\"",
+        "type-check": "tsc --noEmit",
+        "dev-build": "node esbuild-dev.js",
+        "prod-build": "tsc --noEmit && node esbuild-prod.js"
+    },
+    "devDependencies": {
+        "esbuild": "0.19.8",
+        "nodemon": "3.0.1",
+        "typescript": "5.2.2"
+    }
+}
