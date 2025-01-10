@@ -1,0 +1,19 @@
+$include /etc/inputrc
+"\C-p":history-search-backward
+"\C-n":history-search-forward
+
+set colored-stats On
+set completion-ignore-case On
+set completion-prefix-display-length 3
+set mark-symlinked-directories On
+set show-all-if-ambiguous On
+set show-all-if-unmodified On
+set visible-stats On
+
+# This avoids the annoying issue where you press ctrl+V from muscle memory,
+# it inserts a control character, then when you remember to actually press 
+# ctrl+shift+v, it inserts the control character at the start of your paste.
+"\C-v": ""
+
+"\C-h": backward-kill-word
+"\e[3;5~": kill-word
