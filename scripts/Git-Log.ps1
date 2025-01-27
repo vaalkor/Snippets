@@ -1,19 +1,41 @@
 param(
     [string]$Ref,
-    [switch]$FromClip
+    [switch]$FromClip,
+    [int]$Count = 10
 )
+
+function Get-CommitMessage($ref){
+    return (git show --format=%B -s $ref | Out-String).Trim()
+}
+
+function Print-GitLog($ref) {
+
+    $commits = git log $ref --format='%h;%cn;%ar' -n $Count
+
+    $commits | ForEach-Object {
+        $hash, $committerName, $timeSinceString = $_ -split ';'
+        $message = Get-CommitMessage $hash
+
+        [PSCustomObject]@{
+            Hash = $hash
+            Committer = $committerName
+            Time = $timeSinceString
+            Message = $message
+        }
+    } | Format-Table -AutoSize
+}
 
 if($FromClip)
 {
-    git log (Get-Clipboard).Trim() --oneline
+    Print-GitLog (Get-Clipboard).Trim()
     exit 0
 }
 
 if(-not $Ref)
 {
-    git log --oneline
+    Print-GitLog (git branch --show-current | Out-String).Trim()
 }
 else
 {
-    git log $Ref.Trim() --oneline
+    Print-GitLog $Ref.Trim()
 }
