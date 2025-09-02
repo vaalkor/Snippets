@@ -1,29 +1,12 @@
 param(
-    [Int]$Count = 10000,
-    [Switch]$Remote
+    [Int]$Count = 10,
+    [Switch]$Remote,
+    [string]$Not = '',
+    [switch]$All
 )
 
-function Format-TimeString {
-    param(
-        [Int]$Seconds
-    )
-
-    if ($Seconds -lt 60) {
-        return "$Seconds seconds"
-    } elseif ($Seconds -lt 3600) {
-        $minutes = [math]::Round($Seconds / 60, 1)
-        return "$minutes minutes"
-    } elseif ($Seconds -lt 86400) {
-        $hours = [math]::Round($Seconds / 3600, 1)
-        return "$hours hours"
-    } else {
-        $days = [math]::Round($Seconds / 86400, 1)
-        return "$days days"
-    }
-}
-
-function Get-UnixTimestamp {
-    return [int][double]::Parse((Get-Date -UFormat %s))
+if($All){
+    $Count = 10000
 }
 
 if($Remote){
@@ -36,18 +19,16 @@ $branches = $branches `
     | ForEach-Object{ $_.Replace('* ', '').Trim() } `
     | Where-Object { $_ -notmatch 'HEAD ->' }
 
-$branches | ForEach-Object {
-    $ref = $_
-    $commit = (git log --format=%B -n 1 "$ref").Trim() | Select-Object -First 1
-    $unixTimestamp, $timeSinceString, $author = (git show --format='%ct;%ar;%an' -s $ref | Out-String).Trim() -split ';'
-
-    [PSCustomObject]@{
-        Branch     = $ref
-        Commit = $commit
-        Author = $author
-        UnixTimestamp = $unixTimestamp
-        Time = $timeSinceString
-} } `
-    | Sort-Object -Property UnixTimestamp -Descending `
+$branches `
     | Select-Object -First $Count `
+    | ForEach-Object {
+        $ref = $_
+        $timeSinceString, $author, $commit = (git show --format='%ar;%an;%s' -s $ref | Out-String).Trim() -split ';', 3
+
+        [PSCustomObject]@{
+            Branch = $ref
+            Commit = $commit
+            Author = $author
+            Time   = $timeSinceString
+    } } `
     | Format-Table -AutoSize -Property Branch, Author, Time, Commit
